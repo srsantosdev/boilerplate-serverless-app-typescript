@@ -1,0 +1,19 @@
+service: boilerplate-serverless-app-typescript
+
+frameworkVersion: '2'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage, "dev"}
+  environment: 
+    ${file(./src/config/environments/env.${self:provider.stage}.js)}
+  iamRoleStatements:
+    ${file(./src/config/roles/ec2.role.yml)}
+
+functions:
+  - ${file(./src/modules/campaigns/functions.yml)}
+
+  
